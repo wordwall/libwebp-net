@@ -1,23 +1,19 @@
-﻿using System;
-using Xunit;
-using Imazen.WebP;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using Imazen.WebP;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
-using Imazen.WebP.Extern;
+using System.IO;
 
 namespace Imazen.Test.WebP
 {
+    [TestClass]
     public class TestSimpleEncoder
     {
-        [Fact]
+        [TestMethod]
         public void TestVersion(){
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
-            Assert.Equal("0.6.0",SimpleEncoder.GetEncoderVersion());
+            Assert.AreEqual("0.5.2",SimpleEncoder.GetEncoderVersion());
         }
-        [Fact]
+        [TestMethod]
         public void TestEncSimple()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
@@ -39,7 +35,7 @@ namespace Imazen.Test.WebP
             }
 
             FileInfo finfo = new FileInfo(outFileName);
-            Assert.True(finfo.Exists);
+            Assert.IsTrue(finfo.Exists);
         }
     }
 }

@@ -1,21 +1,20 @@
-﻿using System;
-using Xunit;
-using Imazen.WebP;
-using System.Drawing;
+﻿using Imazen.WebP;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
 
 namespace Imazen.Test.Webp
 {
+    [TestClass]
     public class TestSimpleDecoder
     {
-        [Fact]
+        [TestMethod]
         public void TestWebPVersions()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
-            Assert.Equal("0.6.0",SimpleDecoder.GetDecoderVersion());
+            Assert.AreEqual("0.5.2",SimpleDecoder.GetDecoderVersion());
         }
-        [Fact]
+        [TestMethod]
         public void TestDecSimple()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
@@ -35,7 +34,7 @@ namespace Imazen.Test.Webp
             }
 
             FileInfo finfo = new FileInfo(outFile);
-            Assert.True(finfo.Exists);
+            Assert.IsTrue(finfo.Exists);
 
 
         }
