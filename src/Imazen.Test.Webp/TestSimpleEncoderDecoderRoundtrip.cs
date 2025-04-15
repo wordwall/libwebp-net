@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Imazen.WebP;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Xunit;
-using Imazen.WebP;
 
 namespace Imazen.Test.Webp
 {
+    [TestClass]
     public class TestSimpleEncoderDecoderRoundtrip
     {
         private static readonly Random random = new Random();
@@ -53,8 +54,8 @@ namespace Imazen.Test.Webp
                 var webpBytes = outStream.ToArray();
                 var reloaded = decoder.DecodeFromBytes(webpBytes, webpBytes.LongLength);
 
-                Assert.Equal(gdiBitmap.Height, reloaded.Height);
-                Assert.Equal(gdiBitmap.Width, reloaded.Width);
+                Assert.AreEqual(gdiBitmap.Height, reloaded.Height);
+                Assert.AreEqual(gdiBitmap.Width, reloaded.Width);
 
                 for (var y = 0; y < reloaded.Height; y++)
                 {
@@ -62,13 +63,20 @@ namespace Imazen.Test.Webp
                     {
                         var expectedColor = gdiBitmap.GetPixel(x, y);
                         var actualColor   = reloaded.GetPixel(x, y);
-                        Assert.Equal(expectedColor, actualColor);
+                        if (expectedColor.A != 0)
+                        {
+                            Assert.AreEqual(expectedColor, actualColor);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(Color.FromArgb(0, 0, 0, 0), actualColor);
+                        }
                     }
                 }
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestRgb32()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
@@ -79,7 +87,7 @@ namespace Imazen.Test.Webp
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestRgb24()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
@@ -90,7 +98,7 @@ namespace Imazen.Test.Webp
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestAgb32()
         {
             Imazen.WebP.Extern.LoadLibrary.LoadWebPOrFail();
